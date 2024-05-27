@@ -6,6 +6,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerControls _playerControls;
+    private Rigidbody _rigidbody;
+    private Vector3 _movement;
+    
+    [SerializeField] private int speed;
+    
     
     void Awake()
     {
@@ -16,10 +21,10 @@ public class PlayerController : MonoBehaviour
     {
         _playerControls.Enable();
     }
-    
-    private void OnDisable()
+
+    private void Start()
     {
-        _playerControls.Disable();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -29,6 +34,21 @@ public class PlayerController : MonoBehaviour
         float moveX = move.x;
         float moveZ = move.y;
         
-        Debug.Log(moveX + "," + moveZ);
+        _movement = new Vector3(moveX, 0, moveZ).normalized;
+    }
+    
+    private void FixedUpdate()
+    {
+        Move();
+    }
+    
+    private void Move()
+    {
+        _rigidbody.MovePosition(transform.position + (_movement * speed * Time.fixedDeltaTime));
+    }
+    
+    private void OnDisable()
+    {
+        _playerControls.Disable();
     }
 }
