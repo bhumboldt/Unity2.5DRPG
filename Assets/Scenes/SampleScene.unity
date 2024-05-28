@@ -308,6 +308,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1026913033}
   _sprite: {fileID: 1026913032}
+  grassLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  stepsInGrass: 0
   speed: 3
 --- !u!4 &669018752
 Transform:

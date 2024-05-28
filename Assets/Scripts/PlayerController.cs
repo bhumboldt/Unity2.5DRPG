@@ -8,12 +8,17 @@ public class PlayerController : MonoBehaviour
     private PlayerControls _playerControls;
     private Rigidbody _rigidbody;
     private Vector3 _movement;
+    private bool movingInGrass;
+    private float stepTimer;
 
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _sprite;
+    [SerializeField] LayerMask grassLayer;
+    [SerializeField] private int stepsInGrass;
     [SerializeField] private int speed;
 
     private const string IS_WALK_PARAM = "IsWalk";
+    private const float TIME_PER_STEP = 0.5f;
     
     void Awake()
     {
@@ -55,11 +60,29 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        CheckSteps();
     }
     
     private void Move()
     {
         _rigidbody.MovePosition(transform.position + (_movement * speed * Time.fixedDeltaTime));
+    }
+
+    private void CheckSteps()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f, grassLayer);
+        movingInGrass = hitColliders.Length > 0 && _movement != Vector3.zero;
+
+        if (movingInGrass)
+        {
+            stepTimer += Time.fixedDeltaTime;
+            
+            if (stepTimer >= TIME_PER_STEP)
+            {
+                stepTimer = 0;
+                stepsInGrass++;
+            }
+        }
     }
     
     private void OnDisable()
