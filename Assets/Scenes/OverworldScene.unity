@@ -313,6 +313,8 @@ MonoBehaviour:
     m_Bits: 64
   stepsInGrass: 0
   speed: 3
+  encounterMinSteps: 5
+  encounterMaxSteps: 10
 --- !u!4 &669018752
 Transform:
   m_ObjectHideFlags: 0

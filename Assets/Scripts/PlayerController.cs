@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,19 +12,24 @@ public class PlayerController : MonoBehaviour
     private Vector3 _movement;
     private bool movingInGrass;
     private float stepTimer;
+    private int stepsToEncounter;
 
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] LayerMask grassLayer;
     [SerializeField] private int stepsInGrass;
     [SerializeField] private int speed;
+    [SerializeField] private int encounterMinSteps;
+    [SerializeField] private int encounterMaxSteps;
 
     private const string IS_WALK_PARAM = "IsWalk";
     private const float TIME_PER_STEP = 0.5f;
+    private const string BATTLE_SCENE = "BattleScene";
     
     void Awake()
     {
         _playerControls = new PlayerControls();
+        CalculateStepsToNextEncounter();
     }
 
     private void OnEnable()
@@ -81,6 +88,13 @@ public class PlayerController : MonoBehaviour
             {
                 stepTimer = 0;
                 stepsInGrass++;
+                
+                if (stepsInGrass >= stepsToEncounter)
+                {
+                    stepsInGrass = 0;
+                    CalculateStepsToNextEncounter();
+                    SceneManager.LoadScene(BATTLE_SCENE);
+                }
             }
         }
     }
@@ -88,5 +102,10 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         _playerControls.Disable();
+    }
+
+    private void CalculateStepsToNextEncounter()
+    {
+        stepsToEncounter = Random.Range(encounterMinSteps, encounterMaxSteps);
     }
 }
