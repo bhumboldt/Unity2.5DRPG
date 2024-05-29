@@ -103,11 +103,39 @@ public class BattleSystem : MonoBehaviour
             enemySelectionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyEntities[i].Name;
         }
     }
+    
+    public void SelectEnemy(int enemyIndex)
+    {
+        BattleEntities currPlayerEntity = playerEntities[currentPlayer];
+        currPlayerEntity.BattleAction = BattleEntities.Action.Attack;
+        currPlayerEntity.SetTarget(allEntities.IndexOf(enemyEntities[enemyIndex]));
+
+        currentPlayer++;
+
+        if (currentPlayer >= playerEntities.Count)
+        {
+            // Start the battle
+            Debug.Log("Start the battle");
+            Debug.Log("We are attacking " + allEntities[currPlayerEntity.Target].Name);
+        }
+        else
+        {
+            enemySelectionMenu.SetActive(false);
+            ShowBattleMenu();
+        }
+    }
 }
 
 [System.Serializable]
 public class BattleEntities
 {
+    public enum Action
+    {
+        Attack,
+        Run
+    }
+    public Action BattleAction;
+    
     public string Name;
     public int MaxHealth;
     public int CurrentHealth;
@@ -116,6 +144,7 @@ public class BattleEntities
     public int Level;
     public bool IsPlayer;
     public BattleVisuals BattleVisuals;
+    public int Target;
 
     public void SetEntityValues(string name, int maxHealth, int currentHealth, int strength, int initiative, int level, bool isPlayer)
     {
@@ -126,5 +155,10 @@ public class BattleEntities
         Initiative = initiative;
         Level = level;
         IsPlayer = isPlayer;
+    }
+
+    public void SetTarget(int target)
+    {
+        Target = target;
     }
 }
