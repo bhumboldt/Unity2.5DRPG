@@ -16,6 +16,35 @@ public class BattleSystem : MonoBehaviour
     {
         partyManager = GameObject.FindFirstObjectByType<PartyManager>();
         enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
+        
+        CreatePartyEntities();
+        CreateEnemyEntities();
+    }
+
+    private void CreatePartyEntities()
+    {
+        List<PartyMember> partyMembers = partyManager.GetCurrentParty();
+        
+        foreach (var member in partyMembers)
+        {
+            BattleEntities newEntity = new BattleEntities();
+            newEntity.SetEntityValues(member.MemberName, member.MaxHealth, member.CurrentHealth, member.Strength, member.Initiative, member.Level, true);
+            playerEntities.Add(newEntity);
+            allEntities.Add(newEntity);
+        }
+    }
+    
+    private void CreateEnemyEntities()
+    {
+        List<Enemy> enemies = enemyManager.GetEnemies();
+        
+        foreach (var enemy in enemies)
+        {
+            BattleEntities newEntity = new BattleEntities();
+            newEntity.SetEntityValues(enemy.EnemyName, enemy.MaxHealth, enemy.CurrentHealth, enemy.Strength, enemy.Initiative, enemy.Level, false);
+            enemyEntities.Add(newEntity);
+            allEntities.Add(newEntity);
+        }
     }
 }
 
