@@ -30,10 +30,17 @@ public class BattleSystem : MonoBehaviour
     {
         List<PartyMember> partyMembers = partyManager.GetCurrentParty();
         
-        foreach (var member in partyMembers)
+        for (int i = 0; i < partyMembers.Count; i++)
         {
+            var member = partyMembers[i];
             BattleEntities newEntity = new BattleEntities();
             newEntity.SetEntityValues(member.MemberName, member.MaxHealth, member.CurrentHealth, member.Strength, member.Initiative, member.Level, true);
+            
+            BattleVisuals tempBattleVisuals = Instantiate(member.MemberBattleVisualPrefab, partySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            
+            tempBattleVisuals.SetStartingValues(member.CurrentHealth, member.MaxHealth, member.Level);
+            newEntity.BattleVisuals = tempBattleVisuals;
+            
             playerEntities.Add(newEntity);
             allEntities.Add(newEntity);
         }
@@ -43,10 +50,17 @@ public class BattleSystem : MonoBehaviour
     {
         List<Enemy> enemies = enemyManager.GetEnemies();
         
-        foreach (var enemy in enemies)
+        for (int i = 0; i < enemies.Count; i++)
         {
+            var enemy = enemies[i];
             BattleEntities newEntity = new BattleEntities();
             newEntity.SetEntityValues(enemy.EnemyName, enemy.MaxHealth, enemy.CurrentHealth, enemy.Strength, enemy.Initiative, enemy.Level, false);
+            
+            BattleVisuals tempBattleVisuals = Instantiate(enemy.EnemyVisualPrefab, enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            
+            tempBattleVisuals.SetStartingValues(enemy.CurrentHealth, enemy.MaxHealth, enemy.Level);
+            newEntity.BattleVisuals = tempBattleVisuals;
+            
             enemyEntities.Add(newEntity);
             allEntities.Add(newEntity);
         }
@@ -63,6 +77,7 @@ public class BattleEntities
     public int Initiative;
     public int Level;
     public bool IsPlayer;
+    public BattleVisuals BattleVisuals;
 
     public void SetEntityValues(string name, int maxHealth, int currentHealth, int strength, int initiative, int level, bool isPlayer)
     {
