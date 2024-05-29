@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class BattleSystem : MonoBehaviour
 {
     [Header("Spawn Points")]
@@ -12,9 +12,18 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleEntities> allEntities = new List<BattleEntities>();
     [SerializeField] private List<BattleEntities> playerEntities = new List<BattleEntities>();
     [SerializeField] private List<BattleEntities> enemyEntities = new List<BattleEntities>();
+
+    [Header("UI")]
+    [SerializeField] private GameObject[] enemySelectionButtons;
+    [SerializeField] private GameObject battleMenu;
+    [SerializeField] private GameObject enemySelectionMenu;
+    [SerializeField] private TextMeshProUGUI battleText;
+    
+    private const string ACTION_MESSAGE = "'s Action:";
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
+    private int currentPlayer;
     
     // Start is called before the first frame update
     void Start()
@@ -24,6 +33,8 @@ public class BattleSystem : MonoBehaviour
         
         CreatePartyEntities();
         CreateEnemyEntities();
+
+        ShowBattleMenu();
     }
 
     private void CreatePartyEntities()
@@ -63,6 +74,33 @@ public class BattleSystem : MonoBehaviour
             
             enemyEntities.Add(newEntity);
             allEntities.Add(newEntity);
+        }
+    }
+
+    public void ShowBattleMenu()
+    {
+        battleText.text = playerEntities[currentPlayer].Name + ACTION_MESSAGE;
+        battleMenu.SetActive(true);
+    }
+
+    public void ShowEnemySelectionMenu()
+    {
+        battleMenu.SetActive(false);
+        SetEnemySelectionButtons();
+        enemySelectionMenu.SetActive(true);
+    }
+
+    private void SetEnemySelectionButtons()
+    {
+        foreach (var button in enemySelectionButtons)
+        {
+            button.SetActive(false);
+        }
+        
+        for (int i = 0; i < enemyEntities.Count; i++)
+        {
+            enemySelectionButtons[i].SetActive(true);
+            enemySelectionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyEntities[i].Name;
         }
     }
 }

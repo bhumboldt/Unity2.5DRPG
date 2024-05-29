@@ -754,7 +754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &555850723
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1967,7 +1967,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1261267014}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1581133203}
+        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
+        m_MethodName: ShowEnemySelectionMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1261267014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2363,6 +2375,13 @@ MonoBehaviour:
   allEntities: []
   playerEntities: []
   enemyEntities: []
+  enemySelectionButtons:
+  - {fileID: 1833443805}
+  - {fileID: 793934479}
+  - {fileID: 646419350}
+  battleMenu: {fileID: 1209501677}
+  enemySelectionMenu: {fileID: 555850722}
+  battleText: {fileID: 2055822222}
 --- !u!4 &1581133204
 Transform:
   m_ObjectHideFlags: 0
@@ -3235,7 +3254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'John''s Action:'
+  m_text: 'Null''s Action:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
