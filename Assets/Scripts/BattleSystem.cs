@@ -35,6 +35,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bottomText;
     
     private const string ACTION_MESSAGE = "'s Action:";
+    private const int TURN_DURATION = 2;
+    private const string WIN_MESSAGE = "Your party won the battle!";
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -63,7 +65,7 @@ public class BattleSystem : MonoBehaviour
             switch (allEntities[i].BattleAction)
             {
                 case BattleEntities.Action.Attack:
-                    Debug.Log("YOOOO");
+                    yield return StartCoroutine(AttackRoutine(i));
                     break;
                 case BattleEntities.Action.Run:
                     break;
@@ -80,6 +82,33 @@ public class BattleSystem : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    private IEnumerator AttackRoutine(int idx)
+    {
+        if (allEntities[idx].IsPlayer)
+        {
+            BattleEntities currAttacker = allEntities[idx];
+            BattleEntities currTarget = allEntities[currAttacker.Target];
+            AttackAction(currAttacker, currTarget);
+            yield return new WaitForSeconds(TURN_DURATION);
+
+            if (currTarget.CurrentHealth <= 0)
+            {
+                bottomText.text = string.Format("{0} has defeated {1}!", currAttacker.Name, currTarget.Name);
+                yield return new WaitForSeconds(TURN_DURATION);
+                enemyEntities.Remove(currTarget);
+                allEntities.Remove(currTarget);
+            }
+            
+            if (enemyEntities.Count <= 0)
+            {
+                state = BattleState.Won;
+                bottomText.text = WIN_MESSAGE;
+                yield return new WaitForSeconds(TURN_DURATION);
+                Debug.Log("Return to overworld scene");
+            }
+        }
     }
 
     private void CreatePartyEntities()
