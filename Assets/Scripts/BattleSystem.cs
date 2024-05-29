@@ -89,7 +89,12 @@ public class BattleSystem : MonoBehaviour
         if (allEntities[idx].IsPlayer)
         {
             BattleEntities currAttacker = allEntities[idx];
+            if (allEntities[currAttacker.Target].IsPlayer == true || currAttacker.Target >= allEntities.Count)
+            {
+                currAttacker.SetTarget(GetRandomEnemy());
+            }
             BattleEntities currTarget = allEntities[currAttacker.Target];
+            
             AttackAction(currAttacker, currTarget);
             yield return new WaitForSeconds(TURN_DURATION);
 
@@ -109,6 +114,38 @@ public class BattleSystem : MonoBehaviour
                 Debug.Log("Return to overworld scene");
             }
         }
+        else
+        {
+            // BattleEntities currAttacker = allEntities[idx];
+            // BattleEntities currTarget = allEntities[GetRandomPartyMember()];
+        }
+    }
+
+    private int GetRandomPartyMember()
+    {
+        List<int> partyMembers = new List<int>();
+        for (int i = 0; i < allEntities.Count; i++)
+        {
+            if (allEntities[i].IsPlayer)
+            {
+                partyMembers.Add(i);
+            }
+        }
+        
+        return partyMembers[Random.Range(0, partyMembers.Count)];
+    }
+
+    private int GetRandomEnemy()
+    {
+        List<int> enemies = new List<int>();
+        for (int i = 0; i < allEntities.Count; i++)
+        {
+            if (!allEntities[i].IsPlayer)
+            {
+                enemies.Add(i);
+            }
+        }
+        return enemies[Random.Range(0, enemies.Count)];
     }
 
     private void CreatePartyEntities()
