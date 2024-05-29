@@ -4,6 +4,19 @@ using UnityEngine;
 using TMPro;
 public class BattleSystem : MonoBehaviour
 {
+    [SerializeField] private enum BattleState
+    {
+        Start,
+        Selection,
+        Battle,
+        Won,
+        Lost,
+        Run
+    }
+
+    [Header("Battle State")]
+    [SerializeField] private BattleState state;
+    
     [Header("Spawn Points")]
     [SerializeField] private Transform[] partySpawnPoints;
     [SerializeField] private Transform[] enemySpawnPoints;
@@ -37,8 +50,36 @@ public class BattleSystem : MonoBehaviour
         CreateEnemyEntities();
 
         ShowBattleMenu();
-        
-        AttackAction(allEntities[0], allEntities[1]);
+    }
+
+    private IEnumerator BattleRoutine()
+    {
+        enemySelectionMenu.SetActive(false);
+        state = BattleState.Battle;
+        bottomTextPopup.SetActive(true);
+
+        for (int i = 0; i < allEntities.Count; i++)
+        {
+            switch (allEntities[i].BattleAction)
+            {
+                case BattleEntities.Action.Attack:
+                    Debug.Log("YOOOO");
+                    break;
+                case BattleEntities.Action.Run:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (state == BattleState.Battle)
+        {
+            bottomTextPopup.SetActive(false);
+            currentPlayer = 0;
+            ShowBattleMenu();
+        }
+
+        yield return null;
     }
 
     private void CreatePartyEntities()
@@ -118,9 +159,7 @@ public class BattleSystem : MonoBehaviour
 
         if (currentPlayer >= playerEntities.Count)
         {
-            // Start the battle
-            Debug.Log("Start the battle");
-            Debug.Log("We are attacking " + allEntities[currPlayerEntity.Target].Name);
+            StartCoroutine(BattleRoutine());
         }
         else
         {
