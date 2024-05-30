@@ -41,6 +41,9 @@ public class BattleSystem : MonoBehaviour
     private const string WIN_MESSAGE = "Your party won the battle!";
     private const string LOSE_MESSAGE = "Your party has been defeated!";
     private const string OVERWORLD_SCENE = "OverworldScene";
+    private const int RUN_SUCCESS_RATE = 50;
+    private const string RUN_SUCCESS_MESSAGE = "You successfully escaped!";
+    private const string RUN_FAIL_MESSAGE = "You couldn't escape!";
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -68,7 +71,7 @@ public class BattleSystem : MonoBehaviour
 
         for (int i = 0; i < allEntities.Count; i++)
         {
-            if (state == BattleState.Battle)
+            if (state == BattleState.Battle && allEntities[i].CurrentHealth > 0)
             {
                 switch (allEntities[i].BattleAction)
                 {
@@ -76,12 +79,15 @@ public class BattleSystem : MonoBehaviour
                         yield return StartCoroutine(AttackRoutine(i));
                         break;
                     case BattleEntities.Action.Run:
+                        yield return StartCoroutine(RunRoutine());
                         break;
                     default:
                         break;
                 }
             }
         }
+
+        RemoveDeadBattlers();
 
         if (state == BattleState.Battle)
         {
@@ -98,7 +104,7 @@ public class BattleSystem : MonoBehaviour
         if (idx < allEntities.Count && allEntities[idx].IsPlayer)
         {
             BattleEntities currAttacker = allEntities[idx];
-            if (allEntities[currAttacker.Target].IsPlayer == true || currAttacker.Target >= allEntities.Count)
+            if (allEntities[currAttacker.Target].CurrentHealth <= 0)
             {
                 currAttacker.SetTarget(GetRandomEnemy());
             }
@@ -112,7 +118,6 @@ public class BattleSystem : MonoBehaviour
                 bottomText.text = string.Format("{0} has defeated {1}!", currAttacker.Name, currTarget.Name);
                 yield return new WaitForSeconds(TURN_DURATION);
                 enemyEntities.Remove(currTarget);
-                allEntities.Remove(currTarget);
             }
             
             if (enemyEntities.Count <= 0)
@@ -137,7 +142,6 @@ public class BattleSystem : MonoBehaviour
                 bottomText.text = string.Format("{0} has defeated {1}!", currAttacker.Name, currTarget.Name);
                 yield return new WaitForSeconds(TURN_DURATION);
                 playerEntities.Remove(currTarget);
-                allEntities.Remove(currTarget);
             }
             
             if (playerEntities.Count <= 0)
@@ -146,6 +150,38 @@ public class BattleSystem : MonoBehaviour
                 bottomText.text = LOSE_MESSAGE;
                 yield return new WaitForSeconds(TURN_DURATION);
                 Debug.Log("Return to overworld scene or a game over scene");
+            }
+        }
+    }
+
+    private IEnumerator RunRoutine()
+    {
+        if (state == BattleState.Battle)
+        {
+            if (Random.Range(1, 101) >= RUN_SUCCESS_RATE)
+            {
+                bottomText.text = RUN_SUCCESS_MESSAGE;
+                state = BattleState.Run;
+                allEntities.Clear();
+                yield return new WaitForSeconds(TURN_DURATION);
+                SceneManager.LoadScene(OVERWORLD_SCENE);
+                yield break;
+            }
+            else
+            {
+                bottomText.text = RUN_FAIL_MESSAGE;
+                yield return new WaitForSeconds(TURN_DURATION);
+            }
+        }
+    }
+
+    private void RemoveDeadBattlers()
+    {
+        for (int i = 0; i < allEntities.Count; i++)
+        {
+            if (allEntities[i].CurrentHealth <= 0)
+            {
+                allEntities.RemoveAt(i);
             }
         }
     }
@@ -275,6 +311,27 @@ public class BattleSystem : MonoBehaviour
         bottomTextPopup.SetActive(true);
         
         SaveHealth();
+    }
+
+    public void SelectRunAction()
+    {
+        state = BattleState.Selection;
+        BattleEntities currPlayerEntity = playerEntities[currentPlayer];
+        currPlayerEntity.BattleAction = BattleEntities.Action.Run;
+        
+        battleMenu.SetActive(false);
+
+        currentPlayer++;
+
+        if (currentPlayer >= playerEntities.Count)
+        {
+            StartCoroutine(BattleRoutine());
+        }
+        else
+        {
+            enemySelectionMenu.SetActive(false);
+            ShowBattleMenu();
+        }
     }
 
     private void SaveHealth()

@@ -19,6 +19,7 @@ public class PartyManager : MonoBehaviour
         {
             instance = gameObject;
             AddMemberToPartyByName(defaultMember.MemberName);
+            AddMemberToPartyByName(defaultMember.MemberName);
         }
         else
         {
@@ -53,7 +54,16 @@ public class PartyManager : MonoBehaviour
 
     public List<PartyMember> GetCurrentParty()
     {
-        return this.currentParty;
+        List<PartyMember> party = new List<PartyMember>();
+        foreach (var member in currentParty)
+        {
+            if (member.CurrentHealth > 0)
+            {
+                party.Add(member);
+            }
+        }
+
+        return party;
     }
 
     public void SaveHealth(int partyMember, int health)
