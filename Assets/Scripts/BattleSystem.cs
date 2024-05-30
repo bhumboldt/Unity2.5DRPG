@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private enum BattleState
@@ -38,6 +40,7 @@ public class BattleSystem : MonoBehaviour
     private const int TURN_DURATION = 2;
     private const string WIN_MESSAGE = "Your party won the battle!";
     private const string LOSE_MESSAGE = "Your party has been defeated!";
+    private const string OVERWORLD_SCENE = "OverworldScene";
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -115,7 +118,7 @@ public class BattleSystem : MonoBehaviour
                 state = BattleState.Won;
                 bottomText.text = WIN_MESSAGE;
                 yield return new WaitForSeconds(TURN_DURATION);
-                Debug.Log("Return to overworld scene");
+                SceneManager.LoadScene(OVERWORLD_SCENE);
             }
         }
         else
@@ -268,6 +271,16 @@ public class BattleSystem : MonoBehaviour
         
         bottomText.text = string.Format("{0} attacked {1} for {2} damage!", currentAttacker.Name, currentTarget.Name, damage);
         bottomTextPopup.SetActive(true);
+        
+        SaveHealth();
+    }
+
+    private void SaveHealth()
+    {
+        for (int i = 0; i < playerEntities.Count; i++)
+        {
+            partyManager.SaveHealth(i, playerEntities[i].CurrentHealth);
+        }
     }
 }
 

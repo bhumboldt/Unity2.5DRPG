@@ -9,9 +9,23 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private List<PartyMember> currentParty;
     [SerializeField] private PartyMemberInfo defaultMember;
 
+    private Vector3 playerPosition;
+
+    private static GameObject instance;
+
     private void Awake()
     {
-        AddMemberToPartyByName(defaultMember.MemberName);
+        if (instance == null)
+        {
+            instance = gameObject;
+            AddMemberToPartyByName(defaultMember.MemberName);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     public void AddMemberToPartyByName(string name)
@@ -40,6 +54,21 @@ public class PartyManager : MonoBehaviour
     public List<PartyMember> GetCurrentParty()
     {
         return this.currentParty;
+    }
+
+    public void SaveHealth(int partyMember, int health)
+    {
+        currentParty[partyMember].CurrentHealth = health;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        playerPosition = position;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return playerPosition;
     }
 }
 
