@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int encounterMinSteps;
     [SerializeField] private int encounterMaxSteps;
 
+    private PartyManager partyManager;
+
     private const string IS_WALK_PARAM = "IsWalk";
     private const float TIME_PER_STEP = 0.5f;
     private const string BATTLE_SCENE = "BattleScene";
@@ -40,6 +42,12 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        partyManager = GameObject.FindFirstObjectByType<PartyManager>();
+
+        if (partyManager.GetPosition() != Vector3.zero)
+        {
+            transform.position = partyManager.GetPosition();
+        }
     }
 
     // Update is called once per frame
@@ -92,6 +100,7 @@ public class PlayerController : MonoBehaviour
                 if (stepsInGrass >= stepsToEncounter)
                 {
                     stepsInGrass = 0;
+                    partyManager.SetPosition(transform.position);
                     CalculateStepsToNextEncounter();
                     SceneManager.LoadScene(BATTLE_SCENE);
                 }

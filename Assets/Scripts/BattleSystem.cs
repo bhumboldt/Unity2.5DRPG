@@ -55,6 +55,8 @@ public class BattleSystem : MonoBehaviour
         CreatePartyEntities();
         CreateEnemyEntities();
 
+        DetermineBattleOrder();
+
         ShowBattleMenu();
     }
 
@@ -93,7 +95,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator AttackRoutine(int idx)
     {
-        if (allEntities[idx].IsPlayer)
+        if (idx < allEntities.Count && allEntities[idx].IsPlayer)
         {
             BattleEntities currAttacker = allEntities[idx];
             if (allEntities[currAttacker.Target].IsPlayer == true || currAttacker.Target >= allEntities.Count)
@@ -281,6 +283,12 @@ public class BattleSystem : MonoBehaviour
         {
             partyManager.SaveHealth(i, playerEntities[i].CurrentHealth);
         }
+    }
+
+    private void DetermineBattleOrder()
+    {
+        // - sorts list by initiative in ascending order
+        allEntities.Sort((bi1, bi2) => -bi1.Initiative.CompareTo(bi2.Initiative));
     }
 }
 
