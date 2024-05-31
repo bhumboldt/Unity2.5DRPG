@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class MemberFollowAI : MonoBehaviour
     private float followDistance;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+
+    private Vector3 scale;
     
     private const string IS_WALK_PARAM = "IsWalk";
     
@@ -21,6 +24,11 @@ public class MemberFollowAI : MonoBehaviour
         followTarget = GameObject.FindFirstObjectByType<PlayerController>().transform;
     }
 
+    private void Awake()
+    {
+        scale = transform.localScale;
+    }
+
     void FixedUpdate()
     {
         if (Vector3.Distance(transform.position, followTarget.position) >= followDistance)
@@ -30,11 +38,11 @@ public class MemberFollowAI : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, followTarget.position, step);
             if (followTarget.position.x - transform.position.x < 0)
             {
-                _spriteRenderer.flipX = true;
+                _spriteRenderer.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
             }
             else
             {
-                _spriteRenderer.flipX = false;
+                _spriteRenderer.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
             }
         }
         else

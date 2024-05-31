@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private bool movingInGrass;
     private float stepTimer;
     private int stepsToEncounter;
+    private Vector3 scale;
 
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _sprite;
@@ -63,12 +64,12 @@ public class PlayerController : MonoBehaviour
 
         if (moveX != 0 && moveX < 0)
         {
-            _sprite.flipX = true;
+            _sprite.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
         }
 
         if (moveX != 0 && moveX > 0)
         {
-            _sprite.flipX = false;
+            _sprite.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
         }
     }
     
@@ -118,9 +119,10 @@ public class PlayerController : MonoBehaviour
         stepsToEncounter = Random.Range(encounterMinSteps, encounterMaxSteps);
     }
 
-    public void SetOverworldVisuals(Animator animator, SpriteRenderer spriteRenderer)
+    public void SetOverworldVisuals(Animator animator, SpriteRenderer spriteRenderer, Vector3 playerScale)
     {
         this._animator = animator;
         this._sprite = spriteRenderer;
+        this.scale = playerScale;
     }
 }

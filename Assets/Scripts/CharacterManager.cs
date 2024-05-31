@@ -90,7 +90,7 @@ public class CharacterManager : MonoBehaviour
                 
                 playerVisual.transform.SetParent(player.transform);
                 playerVisual.GetComponent<MemberFollowAI>().enabled = false;
-                player.GetComponent<PlayerController>().SetOverworldVisuals(playerVisual.GetComponent<Animator>(), playerVisual.GetComponent<SpriteRenderer>());
+                player.GetComponent<PlayerController>().SetOverworldVisuals(playerVisual.GetComponent<Animator>(), playerVisual.GetComponent<SpriteRenderer>(), playerVisual.transform.localScale);
                 overworldCharacters.Add(playerVisual);
             }
             else
