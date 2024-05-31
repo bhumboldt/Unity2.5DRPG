@@ -191,7 +191,7 @@ public class BattleSystem : MonoBehaviour
         List<int> partyMembers = new List<int>();
         for (int i = 0; i < allEntities.Count; i++)
         {
-            if (allEntities[i].IsPlayer)
+            if (allEntities[i].IsPlayer && allEntities[i].CurrentHealth > 0)
             {
                 partyMembers.Add(i);
             }
@@ -205,7 +205,7 @@ public class BattleSystem : MonoBehaviour
         List<int> enemies = new List<int>();
         for (int i = 0; i < allEntities.Count; i++)
         {
-            if (!allEntities[i].IsPlayer)
+            if (!allEntities[i].IsPlayer && allEntities[i].CurrentHealth > 0)
             {
                 enemies.Add(i);
             }
