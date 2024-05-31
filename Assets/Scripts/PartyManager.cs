@@ -19,7 +19,6 @@ public class PartyManager : MonoBehaviour
         {
             instance = gameObject;
             AddMemberToPartyByName(defaultMember.MemberName);
-            AddMemberToPartyByName(defaultMember.MemberName);
         }
         else
         {
