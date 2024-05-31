@@ -3,15 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class CharacterManager : MonoBehaviour
 {
+    [SerializeField] private GameObject joinPopup;
+    [SerializeField] private TextMeshProUGUI joinPopupText;
+    
     private bool infrontOfPartyMember;
 
     private GameObject joinableMember;
     private PlayerControls playerControls;
 
     private const string NPC_JOINABLE_TAG = "NPCJoinable";
+    private const string PARTY_JOINED_MESSAGE = " joined the party!";
     
     
     // Start is called before the first frame update
@@ -56,6 +61,8 @@ public class CharacterManager : MonoBehaviour
         var joinableCharacter = joinableMember.GetComponent<JoinableCharacter>();
         joinableCharacter.CheckIfJoined();
         joinableCharacter.ShowInteractPrompt(false);
+        joinPopupText.text = partyMember.MemberName + PARTY_JOINED_MESSAGE;
+        joinPopup.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
