@@ -117,4 +117,10 @@ public class PlayerController : MonoBehaviour
     {
         stepsToEncounter = Random.Range(encounterMinSteps, encounterMaxSteps);
     }
+
+    public void SetOverworldVisuals(Animator animator, SpriteRenderer spriteRenderer)
+    {
+        this._animator = animator;
+        this._sprite = spriteRenderer;
+    }
 }

@@ -14,6 +14,7 @@ public class CharacterManager : MonoBehaviour
 
     private GameObject joinableMember;
     private PlayerControls playerControls;
+    private List<GameObject> overworldCharacters = new List<GameObject>();
 
     private const string NPC_JOINABLE_TAG = "NPCJoinable";
     private const string PARTY_JOINED_MESSAGE = " joined the party!";
@@ -28,6 +29,7 @@ public class CharacterManager : MonoBehaviour
     private void Start()
     {
         playerControls.Player.Interact.performed += _ => Interact();
+        SpawnOverworldMembers();
     }
 
     private void OnEnable()
@@ -63,6 +65,43 @@ public class CharacterManager : MonoBehaviour
         joinableCharacter.ShowInteractPrompt(false);
         joinPopupText.text = partyMember.MemberName + PARTY_JOINED_MESSAGE;
         joinPopup.SetActive(true);
+        SpawnOverworldMembers();
+    }
+
+    private void SpawnOverworldMembers()
+    {
+        for (int i = 0; i < overworldCharacters.Count; i++)
+        {
+            Destroy(overworldCharacters[i]);
+        }
+        
+        overworldCharacters.Clear();
+        
+        List<PartyMember> currentParty = GameObject.FindFirstObjectByType<PartyManager>().GetCurrentParty();
+        
+        for (int i = 0; i < currentParty.Count; i++)
+        {
+            var member = currentParty[i];
+            
+            if (i == 0)
+            {
+                GameObject player = gameObject;
+                var playerVisual = Instantiate(member.MemberOverworldVisualPrefab, player.transform.position, Quaternion.identity);
+                
+                playerVisual.transform.SetParent(player.transform);
+                
+                player.GetComponent<PlayerController>().SetOverworldVisuals(playerVisual.GetComponent<Animator>(), playerVisual.GetComponent<SpriteRenderer>());
+                overworldCharacters.Add(playerVisual);
+            }
+            else
+            {
+                Vector3 positionToSpawn = transform.position;
+                positionToSpawn.x -= 1;
+                
+                GameObject tempMember = Instantiate(currentParty[i].MemberOverworldVisualPrefab, positionToSpawn, Quaternion.identity);
+                overworldCharacters.Add(tempMember);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

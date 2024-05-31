@@ -1347,8 +1347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6b6b1697d8a42bd9d7b30f32db2bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 1026913033}
-  _sprite: {fileID: 1026913032}
+  _animator: {fileID: 0}
+  _sprite: {fileID: 0}
   grassLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1368,8 +1368,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1026913031}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &669018753
@@ -2802,21 +2801,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1026913031 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-  m_PrefabInstance: {fileID: 5722924497333964330}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &1026913032 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 5359011697419257697, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-  m_PrefabInstance: {fileID: 5722924497333964330}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1026913033 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 3168037134693400570, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-  m_PrefabInstance: {fileID: 5722924497333964330}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1054577228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9613,63 +9597,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6069463794064752753, guid: f3665f18ef4134d37a813f94426fc3f4, type: 3}
   m_PrefabInstance: {fileID: 2135700173}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5722924497333964330
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 669018752}
-    m_Modifications:
-    - target: {fileID: 6918554324616689615, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_Name
-      value: JohnOverworld
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180751044826192632, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 36dc5f34eb04e46e3978f335ad02fbb9, type: 3}
 --- !u!1001 &8191943652343202540
 PrefabInstance:
   m_ObjectHideFlags: 0
