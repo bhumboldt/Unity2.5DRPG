@@ -3258,6 +3258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allMembers:
   - {fileID: 11400000, guid: 03c84fd00eab54357b8ba1cd804127d1, type: 2}
+  - {fileID: 11400000, guid: 9b1eafee7bd47419f9582ada1a96bb37, type: 2}
   currentParty: []
   defaultMember: {fileID: 11400000, guid: 03c84fd00eab54357b8ba1cd804127d1, type: 2}
 --- !u!4 &1247665843
@@ -9157,7 +9158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b99a9eeb1fc24359aac5bc921df4785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MemberToJoin: {fileID: 0}
+  MemberToJoin: {fileID: 11400000, guid: 9b1eafee7bd47419f9582ada1a96bb37, type: 2}
   interactPrompt: {fileID: 601715201}
 --- !u!135 &1780937105
 SphereCollider:

@@ -51,7 +51,7 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    public List<PartyMember> GetCurrentParty()
+    public List<PartyMember> GetAliveParty()
     {
         List<PartyMember> party = new List<PartyMember>();
         foreach (var member in currentParty)
@@ -63,6 +63,11 @@ public class PartyManager : MonoBehaviour
         }
 
         return party;
+    }
+    
+    public List<PartyMember> GetCurrentParty()
+    {
+        return currentParty;
     }
 
     public void SaveHealth(int partyMember, int health)
