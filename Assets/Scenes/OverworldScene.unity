@@ -9605,6 +9605,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1780937103}
     m_Modifications:
+    - target: {fileID: -1583126561630656588, guid: bd31861d67b48462583bf641b19a1a5c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7902771693007973326, guid: bd31861d67b48462583bf641b19a1a5c, type: 3}
       propertyPath: m_Name
       value: ClaireOverworld
